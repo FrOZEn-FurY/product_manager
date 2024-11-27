@@ -1,13 +1,89 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer components {
+    .navbar {
+        @apply m-0 p-2 flex flex-row items-center justify-center bg-gray-300;
+    }
+
+    .navbar-nav {
+        @apply flex flex-row gap-2 items-center justify-start w-full;
+    }
+
+    .nav-brand {
+        @apply px-3 text-2xl font-bold text-gray-900 leading-tight;
+    }
+
+    .nav-divider {
+        @apply self-stretch border border-white bg-white mx-2;
+    }
+
+    .navbar-item {
+        @apply p-1;
+    }
+
+    .badge {
+        @apply bg-yellow-500 p-2 rounded-full mx-2;
+    }
+
+    .leading-span {
+        @apply mx-2;
+    }
+
+    .search {
+        @apply p-3 rounded-lg text-sm text-gray-900 leading-tight;
+    }
+
+    .main-content {
+        @apply flex-grow flex flex-col items-start justify-start w-full p-2 gap-3;
+    }
+
+    .title-filter {
+        @apply bg-gray-300 p-2 rounded-lg shadow-sm shadow-black text-sm text-black leading-tight placeholder-black w-[20rem];
+    }
+
+    .data-table {
+        @apply shadow-md shadow-black table table-fixed self-stretch rounded-md p-2;
+    }
+
+    .data-table td {
+        @apply text-center text-lg text-gray-900 leading-tight p-2 border-r-2;
+    }
+
+    .operations {
+        @apply flex flex-row items-center justify-center gap-2;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .operations button {
+        @apply m-0 p-[0.3rem];
+    }
+
+    .edit {
+        @apply border-x border-black rounded-xl text-yellow-500 hover:text-black hover:bg-yellow-500
+        transition-all duration-300 ease-in-out;
+    }
+
+    .delete {
+        @apply border-x border-black rounded-xl text-red-600 hover:text-black hover:bg-red-600
+        transition-all duration-300 ease-in-out;
+    }
+
+    .add-pagination {
+        @apply self-stretch flex flex-row items-center justify-between;
+    }
+
+    .add {
+        @apply bg-blue-600 rounded-xl p-2 hover:bg-blue-800 text-white transition-all duration-300 ease-in;
+    }
+
+    .help-card {
+        @apply flex flex-row items-center border border-black p-2 gap-2 w-[30rem] rounded-lg;
+    }
+
+    .help-card-title {
+        @apply flex flex-row items-center justify-start gap-2;
+    }
 }
