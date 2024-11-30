@@ -1,26 +1,29 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useQuery} from "react-query";
 import {AddForm} from "./addForm";
 import {ConfirmDelete} from "./confirmDelete";
-
-async function fetchData() {
-    const response = await fetch('https://api.shahrebar.ir/api/v1/products', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': "Bearer 9|2lvEO3R6TSN8zu7pFGNJbCR0DIDklXLsEjz4ooL1730496b4"
-            }
-        });
-    const data = await response.json();
-    console.log(data.data);
-    return data;
-}
+import { PiSquaresFour } from "react-icons/pi";
+import { CiEdit } from "react-icons/ci";
+import {MdKeyboardArrowLeft, MdKeyboardArrowRight, MdOutlineDeleteSweep} from "react-icons/md";
+import { RiAddLargeFill } from "react-icons/ri";
+import {FaCheck} from "react-icons/fa";
 
 export const ShowData = () => {
-    const { isLoading, isError, data, error } = useQuery('fetchProducts', fetchData);
+    let { isLoading, isError, data, error } = useQuery('fetchProducts', fetchData);
+    const [showableData, setShowableData] = useState(undefined);
     const [showForm, setShowForm] = useState(false);
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [currentId, setCurrentId] = useState(null);
+
+    useEffect(() => {
+        document.addEventListener('keydown', async (event) => {
+            if (event.key === 'Enter' && event.target.classList.contains("title-filter")) {
+                const value = event.target.value;
+                const newData = await getDataByTitle(value);
+                setShowableData(newData);
+            }
+        })
+    }, [data]);
 
     return (
         <>
@@ -30,7 +33,7 @@ export const ShowData = () => {
             {
                 confirmDelete && <ConfirmDelete data={currentId} handleConfirmDelete={setConfirmDelete} handleCurrentId={setCurrentId} />
             }
-            <h1 className={"font-bold text-xl"}>icon محصولات</h1>
+            <h1 className={"font-bold text-xl flex flex-row items-center gap-2"}><PiSquaresFour className={"w-[2rem] h-[2rem]"}/> محصولات</h1>
             <input type={"text"} placeholder={"جستجو کنید"} className={"title-filter"} />
             {isLoading === true ? (
                 <div>Loading...</div>
@@ -52,7 +55,7 @@ export const ShowData = () => {
                         </tr>
                     </thead>
                     <tbody>
-                    {data.data.map((item) => {
+                    {showableData.data.map((item) => {
                         return (
                             <tr key={item.id}>
                                 <td>{item.product_id}</td>
@@ -65,13 +68,19 @@ export const ShowData = () => {
                                     <td>{item.inventory}</td>
                                     <td className={"operations"}>
                                         <button onClick={() => {
+                                            if (confirmDelete || currentId || showForm) {
+                                                return;
+                                            }
                                             setCurrentId(item);
                                             setShowForm(true);
-                                        }} className={"edit"}>icon ویرایش</button>
+                                        }} id={"add-form-button"} className={"edit"}><CiEdit className={"w-[1.5rem] h-[1.5rem]"} /> ویرایش</button>
                                         <button onClick={() => {
+                                            if (confirmDelete || currentId || showForm) {
+                                                return;
+                                            }
                                             setCurrentId(item);
                                             setConfirmDelete(true);
-                                        }} className={"delete"}>icon حذف</button>
+                                        }} id={"delete-item-button"} className={"delete"}><MdOutlineDeleteSweep className={"w-[1.5rem] h-[1.5rem]"}/> حذف</button>
                                     </td>
                                 </tr>
                             )
@@ -81,15 +90,21 @@ export const ShowData = () => {
             )}
             <div className={"add-pagination"}>
                 <button onClick={() => {
+                    if (confirmDelete || currentId || showForm) {
+                        return;
+                    }
                     setShowForm(true);
-                }} className={"add"}>icon اضافه کردن محصول جدید</button>
-                <div>
-                    <span>&left;</span>
+                }} id={"add-form-button"} className={"add"}><RiAddLargeFill className={"mt-1"} /> اضافه کردن محصول جدید</button>
+                <div className={"pagination"}>
+                    <span><MdKeyboardArrowRight className={"w-[1.2rem] h-[1.2rem]"} /></span>
                     <span>1</span>
-                    <span>&right;</span>
+                    <span><MdKeyboardArrowLeft className={"w-[1.2rem] h-[1.2rem]"} /></span>
                 </div>
             </div>
-            <h1 className={"font-bold text-md mt-auto"}>icon راهنما های مشابه</h1>
+            <h1 className={"font-bold text-md mt-auto flex flex-row items-center gap-2"}>
+                <div className={"check-container"}><FaCheck className={"fill-white"} /></div>
+                راهنما های مشابه
+            </h1>
             <div className={"flex flex-row items-center gap-2"}>
                 <div className={"help-card"}>
                     <div className={"help-card-title"}>
@@ -117,5 +132,30 @@ export const ShowData = () => {
                 </div>
             </div>
         </>
-    )
+    );
+
+    async function fetchData() {
+        const response = await fetch('https://api.shahrebar.ir/api/v1/products', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer 17|LBQC9Wd4GxwrDO0YEAhtmZEDvJi7XSQRS7JhbVkE4279d436"
+            }
+        });
+        const data = await response.json();
+        setShowableData(data);
+        return data;
+    }
+
+    async function getDataByTitle(value) {
+        const response = await fetch('https://api.shahrebar.ir/api/v1/products?title=*' + value + "*", {
+            method: 'GET',
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': "Bearer 17|LBQC9Wd4GxwrDO0YEAhtmZEDvJi7XSQRS7JhbVkE4279d436"
+            }
+        });
+        const data = response.json();
+        return data;
+    }
 }

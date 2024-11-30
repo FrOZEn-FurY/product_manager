@@ -4,7 +4,7 @@
 
 @layer components {
     .navbar {
-        @apply m-0 p-2 flex flex-row items-center justify-center bg-gray-300;
+        @apply m-0 p-2 px-8 flex flex-row items-center justify-center bg-gray-300;
     }
 
     .navbar-nav {
@@ -19,8 +19,8 @@
         @apply self-stretch border border-white bg-white mx-2;
     }
 
-    .navbar-item {
-        @apply p-1;
+    .nav-item a {
+        @apply flex flex-row items-center justify-start;
     }
 
     .badge {
@@ -28,26 +28,35 @@
     }
 
     .leading-span {
-        @apply mx-2;
+        @apply mx-2 flex flex-row items-center justify-end;
     }
 
     .search {
         @apply p-3 rounded-lg text-sm text-gray-900 leading-tight;
     }
 
+    .search::placeholder {
+        @apply font-bold;
+    }
+
     .main-content {
-        @apply flex-grow flex flex-col items-start justify-start w-full p-2 gap-3;
+        @apply flex-grow flex flex-col items-start justify-start w-full p-2 gap-3 relative;
     }
 
     .title-filter {
-        @apply bg-gray-300 p-2 rounded-lg shadow-sm shadow-black text-sm text-black leading-tight placeholder-black w-[20rem];
+        @apply bg-gray-300 p-2 rounded-lg shadow-sm shadow-black text-sm text-black leading-tight
+        placeholder-black w-[20rem];
+    }
+
+    .title-filter::placeholder {
+        @apply font-bold;
     }
 
     .data-table {
         @apply shadow-md shadow-black table table-fixed self-stretch rounded-md p-2;
     }
 
-    .data-table td {
+    .data-table td, th {
         @apply text-center text-lg text-gray-900 leading-tight p-2 border-r-2;
     }
 
@@ -63,12 +72,12 @@
 
     .edit {
         @apply border-x border-black rounded-xl text-yellow-500 hover:text-black hover:bg-yellow-500
-        transition-all duration-300 ease-in-out;
+        transition-all duration-300 ease-in-out flex flex-row items-center gap-1;
     }
 
     .delete {
         @apply border-x border-black rounded-xl text-red-600 hover:text-black hover:bg-red-600
-        transition-all duration-300 ease-in-out;
+        transition-all duration-300 ease-in-out flex flex-row items-center gap-1;
     }
 
     .add-pagination {
@@ -76,14 +85,65 @@
     }
 
     .add {
-        @apply bg-blue-600 rounded-xl p-2 hover:bg-blue-800 text-white transition-all duration-300 ease-in;
+        @apply bg-blue-600 rounded-xl p-2 hover:bg-blue-800 text-white transition-all duration-300 ease-in
+        flex flex-row items-center gap-4;
+    }
+
+    .check-container {
+        @apply flex flex-row items-center justify-center bg-green-400 rounded-xl rounded-bl-none p-2;
+    }
+
+    .pagination {
+        @apply flex flex-row gap-2 items-center;
     }
 
     .help-card {
-        @apply flex flex-row items-center border border-black p-2 gap-2 w-[30rem] rounded-lg;
+        @apply flex flex-row items-center border-2 border-black border-dotted p-2 gap-2 w-[30rem] rounded-lg;
     }
 
     .help-card-title {
         @apply flex flex-row items-center justify-start gap-2;
+    }
+
+    .form {
+        @apply absolute w-[80rem] h-[18rem] left-[calc(50%_-_40rem)] top-[calc(50%_-_9rem)] shadow-lg shadow-black
+        bg-white flex flex-col rounded-xl;
+    }
+
+    .add-title {
+        @apply flex flex-row items-center justify-start gap-8 p-2;
+    }
+
+    .input-group {
+        @apply flex flex-row items-center justify-start gap-2 w-[25rem] relative;
+    }
+
+    .form-error {
+        @apply absolute text-[0.45rem] text-red-600 -bottom-2 font-bold left-0
+    }
+
+    .input {
+        @apply flex-grow p-2 border border-black rounded-xl;
+    }
+
+    .label {
+        @apply absolute right-2 transition-all duration-300 ease-in bg-white;
+    }
+
+    .input::placeholder {
+        @apply opacity-0 text-white;
+    }
+
+    .label:has(+ .input:not(:placeholder-shown)){
+        @apply text-[0.7rem] text-gray-600 leading-tight -top-2 right-0 transition-all duration-300 ease-in;
+    }
+
+    .input-group:focus-within .label {
+        @apply text-[0.7rem] text-gray-600 leading-tight -top-2 right-0 transition-all duration-300 ease-in;
+    }
+
+    .delete-confirm {
+        @apply absolute w-[25rem] h-[10rem] left-[calc(50%_-_12.5rem)] top-[calc(50%_-_5rem)] shadow-lg shadow-black
+        bg-white rounded-xl p-5 flex flex-col gap-1;
     }
 }
