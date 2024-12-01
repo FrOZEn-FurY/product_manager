@@ -11,6 +11,7 @@ module.exports = {
         danabolder: ['"Dana-bolder"', 'sans-serif'],
         peydabold: ['"Peyda-bold"', 'sans-serif'],
         peydabolder: ['"Peyda-bolder"', 'sans-serif'],
+        persiannum: ['"persiannum"', 'sans-serif'],
       }
     },
   },

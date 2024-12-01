@@ -14,10 +14,10 @@ const cacheRtl = createCache({
 export const Main = () => {
     return (
         <CacheProvider value={cacheRtl}>
-            <header className="main-header">
+            <header className="main-header font-persiannum">
                 <Navbar />
             </header>
-            <main className="main-content">
+            <main className="main-content font-persiannum">
                 <ShowData />
             </main>
         </CacheProvider>

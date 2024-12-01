@@ -1036,6 +1036,10 @@ video {
   padding: 0.5rem;
 }
 
+.font-danabolder {
+  font-family: "Dana-bolder", sans-serif;
+}
+
 .font-peydabold {
   font-family: "Peyda-bold", sans-serif;
 }
@@ -1044,12 +1048,8 @@ video {
   font-family: "Peyda-bolder", sans-serif;
 }
 
-.font-danabold {
-  font-family: "Dana-bold", sans-serif;
-}
-
-.font-danabolder {
-  font-family: "Dana-bolder", sans-serif;
+.font-persiannum {
+  font-family: "persiannum", sans-serif;
 }
 
 .text-xl {
@@ -1064,6 +1064,16 @@ video {
 .text-red-600 {
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity, 1));
+}
+
+@font-face {
+  font-family: 'persiannum';
+
+  src: url('../public/fonts/PeydaWebFaNum-Bold.woff2') format('woff2');
+
+  font-weight: normal;
+
+  font-style: normal;
 }
 
 @font-face {

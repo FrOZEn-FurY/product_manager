@@ -1,13 +1,12 @@
-import React, {useEffect} from "react";
+import React from "react";
 import * as yup from 'yup';
-import {useForm} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import axios from 'axios';
 import {IoMdCloseCircleOutline} from "react-icons/io";
 import {IoBasketOutline} from "react-icons/io5";
 import {FaArrowLeftLong} from "react-icons/fa6";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Box, Button, FormControl, InputLabel, MenuItem, Modal, NativeSelect, Select, TextField} from "@mui/material";
-import SelectInput from "@mui/material/Select/SelectInput";
 
 const schema = yup.object().shape({
     title: yup.string().required("This field is required."),
@@ -44,7 +43,6 @@ const style = {
     alignItems: 'start',
     flexDirection: 'column',
 };
-
 
 export const AddForm = ({data, handleShowForm, handleCurrentId, showForm}) => {
     const form = useForm({
@@ -124,19 +122,21 @@ export const AddForm = ({data, handleShowForm, handleCurrentId, showForm}) => {
                     </div>
 
                     <div className={"input-group"}>
-                        <FormControl fullWidth>
-                            <InputLabel id="is_active_label">وضعیت</InputLabel>
-                            <Select
-                                labelId="is_active_label"
-                                id="is_active"
-                                label="وضعیت"
-                                variant={"outlined"}
-                                defaultValue={""}
-                            >
-                                <MenuItem value={true}>فعال</MenuItem>
-                                <MenuItem value={false}>غیرفعال</MenuItem>
-                            </Select>
-                        </FormControl>
+                        <Controller control={form.control} render={ ({ field }) => {
+                            return ( <FormControl fullWidth>
+                                <InputLabel id="is_active_label">وضعیت</InputLabel>
+                                <Select
+                                    labelId="is_active_label"
+                                    id="is_active"
+                                    label="وضعیت"
+                                    variant={"outlined"}
+                                    {...field}
+                                >
+                                    <MenuItem value={true}>فعال</MenuItem>
+                                    <MenuItem value={false}>غیرفعال</MenuItem>
+                                </Select>
+                            </FormControl>
+                            );}} name={"is_active"} />
                         {form.formState.errors.is_active &&
                             <span className={"form-error"}>{form.formState.errors.is_active.message}</span>}
                     </div>

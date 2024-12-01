@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 @font-face {
+    font-family: 'persiannum';
+    src: url('../public/fonts/PeydaWebFaNum-Bold.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'Dana-bold';
     src: url('../public/fonts/dana-bold.woff2') format('woff2');
     font-weight: normal;
