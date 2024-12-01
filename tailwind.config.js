@@ -5,7 +5,14 @@ module.exports = {
     './public/index.html',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        danabold: ['"Dana-bold"', 'sans-serif'],
+        danabolder: ['"Dana-bolder"', 'sans-serif'],
+        peydabold: ['"Peyda-bold"', 'sans-serif'],
+        peydabolder: ['"Peyda-bolder"', 'sans-serif'],
+      }
+    },
   },
   plugins: [],
 }

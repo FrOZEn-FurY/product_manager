@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Dana-bold';
+    src: url('../public/fonts/dana-bold.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Dana-bolder';
+    src: url('../public/fonts/dana-extrabold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Peyda-bold';
+    src: url('../public/fonts/Peyda-Black.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Peyda-bolder';
+    src: url('../public/fonts/Peyda-ExtraBold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+
 @layer components {
     .navbar {
         @apply m-0 p-2 px-8 flex flex-row items-center justify-center bg-gray-300;
@@ -12,7 +40,7 @@
     }
 
     .nav-brand {
-        @apply px-3 text-2xl font-bold text-gray-900 leading-tight;
+        @apply px-3 text-2xl font-bold text-gray-900 leading-tight font-peydabold;
     }
 
     .nav-divider {
@@ -20,11 +48,11 @@
     }
 
     .nav-item a {
-        @apply flex flex-row items-center justify-start;
+        @apply flex flex-row items-center justify-start font-peydabolder;
     }
 
     .badge {
-        @apply bg-yellow-500 p-2 rounded-full mx-2;
+        @apply bg-amber-500 rounded-full mx-2;
     }
 
     .leading-span {
@@ -32,7 +60,7 @@
     }
 
     .search {
-        @apply p-3 rounded-lg text-sm text-gray-900 leading-tight;
+        @apply p-3 rounded-lg text-sm text-gray-900 leading-tight w-[14rem] placeholder-black font-peydabolder;
     }
 
     .search::placeholder {
@@ -45,39 +73,77 @@
 
     .title-filter {
         @apply bg-gray-300 p-2 rounded-lg shadow-sm shadow-black text-sm text-black leading-tight
-        placeholder-black w-[20rem];
+        placeholder-black w-[30rem] font-danabolder;
     }
 
     .title-filter::placeholder {
         @apply font-bold;
     }
 
-    .data-table {
-        @apply shadow-md shadow-black table table-fixed self-stretch rounded-md p-2;
-    }
-
-    .data-table td, th {
-        @apply text-center text-lg text-gray-900 leading-tight p-2 border-r-2;
-    }
-
-    .operations {
-        @apply flex flex-row items-center justify-center gap-2;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-
     .operations button {
         @apply m-0 p-[0.3rem];
     }
 
-    .edit {
-        @apply border-x border-black rounded-xl text-yellow-500 hover:text-black hover:bg-yellow-500
-        transition-all duration-300 ease-in-out flex flex-row items-center gap-1;
+    .data-table {
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 1px solid lightgray;
+        border-top: none;
     }
 
-    .delete {
-        @apply border-x border-black rounded-xl text-red-600 hover:text-black hover:bg-red-600
-        transition-all duration-300 ease-in-out flex flex-row items-center gap-1;
+    .data-table th,
+    .data-table td {
+        @apply font-danabolder;
+        position: relative;
+        padding: 0.25rem !important;
+        padding-left: 1rem !important;
+        overflow: hidden;
+        background-color: white;
+        border-bottom: 0 !important;
+    }
+
+    .data-table th {
+        @apply bg-slate-50;
+    }
+
+    .data-table th:not(:last-child)::before,
+    .data-table td:not(:last-child)::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 1px;
+        background: linear-gradient(
+            to bottom,
+            white 0%,
+            white 20%,
+            lightgray 20%,
+            lightgray 80%,
+            white 80%,
+            white 100%
+        );
+        z-index: 1;
+    }
+
+    .edit-delete {
+        border-inline: solid 1px black !important;
+        border-radius: 10px !important;
+        margin-inline: 0.25rem !important;
+    }
+
+    .abortButton {
+        @apply flex-grow;
+        border-right: none !important;
+        color: black;
+        border-color: black !important;
+        justify-content: space-between !important;
+    }
+
+    .abortDelete {
+        border-block: none !important;
+        color: black;
+        border-color: black !important;
     }
 
     .add-pagination {
@@ -90,7 +156,7 @@
     }
 
     .check-container {
-        @apply flex flex-row items-center justify-center bg-green-400 rounded-xl rounded-bl-none p-2;
+        @apply flex flex-row items-center justify-center bg-[#2afe4d] rounded-xl rounded-bl-none p-2;
     }
 
     .pagination {
@@ -107,7 +173,7 @@
 
     .form {
         @apply absolute w-[80rem] h-[18rem] left-[calc(50%_-_40rem)] top-[calc(50%_-_9rem)] shadow-lg shadow-black
-        bg-white flex flex-col rounded-xl;
+        bg-white flex flex-col rounded-xl z-10;
     }
 
     .add-title {
@@ -122,28 +188,8 @@
         @apply absolute text-[0.45rem] text-red-600 -bottom-2 font-bold left-0
     }
 
-    .input {
-        @apply flex-grow p-2 border border-black rounded-xl;
-    }
-
-    .label {
-        @apply absolute right-2 transition-all duration-300 ease-in bg-white;
-    }
-
-    .input::placeholder {
-        @apply opacity-0 text-white;
-    }
-
-    .label:has(+ .input:not(:placeholder-shown)){
-        @apply text-[0.7rem] text-gray-600 leading-tight -top-2 right-0 transition-all duration-300 ease-in;
-    }
-
-    .input-group:focus-within .label {
-        @apply text-[0.7rem] text-gray-600 leading-tight -top-2 right-0 transition-all duration-300 ease-in;
-    }
-
     .delete-confirm {
         @apply absolute w-[25rem] h-[10rem] left-[calc(50%_-_12.5rem)] top-[calc(50%_-_5rem)] shadow-lg shadow-black
-        bg-white rounded-xl p-5 flex flex-col gap-1;
+        bg-white rounded-xl p-5 flex flex-col gap-1 z-10;
     }
 }

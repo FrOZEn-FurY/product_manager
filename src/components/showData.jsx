@@ -7,6 +7,7 @@ import { CiEdit } from "react-icons/ci";
 import {MdKeyboardArrowLeft, MdKeyboardArrowRight, MdOutlineDeleteSweep} from "react-icons/md";
 import { RiAddLargeFill } from "react-icons/ri";
 import {FaCheck} from "react-icons/fa";
+import {Button, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
 
 export const ShowData = () => {
     let { isLoading, isError, data, error } = useQuery('fetchProducts', fetchData);
@@ -28,84 +29,100 @@ export const ShowData = () => {
     return (
         <>
             {
-                showForm && <AddForm data={currentId} handleCurrentId={setCurrentId} handleShowForm={setShowForm} />
+                showForm && <AddForm data={currentId} handleCurrentId={setCurrentId} handleShowForm={setShowForm} showForm={showForm} />
             }
             {
                 confirmDelete && <ConfirmDelete data={currentId} handleConfirmDelete={setConfirmDelete} handleCurrentId={setCurrentId} />
             }
-            <h1 className={"font-bold text-xl flex flex-row items-center gap-2"}><PiSquaresFour className={"w-[2rem] h-[2rem]"}/> محصولات</h1>
+            <h1 className={"font-bold text-xl flex flex-row items-center gap-4 font-peydabold"}>
+                <PiSquaresFour className={"w-[2rem] h-[2rem]"}/> محصولات
+            </h1>
             <input type={"text"} placeholder={"جستجو کنید"} className={"title-filter"} />
             {isLoading === true ? (
                 <div>Loading...</div>
             ) : isError ? (
                 <div>An error occurred: {error.message}</div>
             ) : (
-                <table className={"data-table"}>
-                    <thead>
-                        <tr>
-                            <th>کد محصول</th>
-                            <th>عنوان</th>
-                            <th>مبلغ (تومان)</th>
-                            <th>دسته بندی</th>
-                            <th>مبلغ نهایی (تومان)</th>
-                            <th>ابعاد</th>
-                            <th>درصد تخفیف</th>
-                            <th>موجودی</th>
-                            <th>عملیات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Table className={"data-table"}>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align={"center"}>کد محصول</TableCell>
+                            <TableCell align={"center"}>عنوان</TableCell>
+                            <TableCell align={"center"}>مبلغ (تومان)</TableCell>
+                            <TableCell align={"center"}>دسته بندی</TableCell>
+                            <TableCell align={"center"}>مبلغ نهایی (تومان)</TableCell>
+                            <TableCell align={"center"}>ابعاد</TableCell>
+                            <TableCell align={"center"}>درصد تخفیف</TableCell>
+                            <TableCell align={"center"}>موجودی</TableCell>
+                            <TableCell align={"center"}>عملیات</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
                     {showableData.data.map((item) => {
                         return (
-                            <tr key={item.id}>
-                                <td>{item.product_id}</td>
-                                <td>{item.title}</td>
-                                    <td>{item.price_toman}</td>
-                                    <td>{item.product_category.title}</td>
-                                    <td>{item.price_after_discount}</td>
-                                    <td>3*4</td>
-                                    <td>{item.discount_percent}%</td>
-                                    <td>{item.inventory}</td>
-                                    <td className={"operations"}>
-                                        <button onClick={() => {
+                            <TableRow key={item.id}>
+                                <TableCell align={"center"}>{item.product_id}</TableCell>
+                                <TableCell align={"center"}>{item.title}</TableCell>
+                                    <TableCell align={"center"}>{item.price_toman}</TableCell>
+                                    <TableCell align={"center"}>{item.product_category.title}</TableCell>
+                                    <TableCell align={"center"}>{item.price_after_discount}</TableCell>
+                                    <TableCell align={"center"}>3*4</TableCell>
+                                    <TableCell align={"center"}>{item.discount_percent}%</TableCell>
+                                    <TableCell align={"center"}>{item.inventory}</TableCell>
+                                    <TableCell align={"center"} className={"operations"}>
+                                        <Button onClick={() => {
                                             if (confirmDelete || currentId || showForm) {
                                                 return;
                                             }
                                             setCurrentId(item);
                                             setShowForm(true);
-                                        }} id={"add-form-button"} className={"edit"}><CiEdit className={"w-[1.5rem] h-[1.5rem]"} /> ویرایش</button>
-                                        <button onClick={() => {
+                                        }} id={"add-form-button"}
+                                                color={"warning"}
+                                                className={"edit-delete"}
+                                                startIcon={<CiEdit className={"w-[1.5rem] h-[1.5rem]"} />}
+                                        >
+                                             ویرایش</Button>
+                                        <Button onClick={() => {
                                             if (confirmDelete || currentId || showForm) {
                                                 return;
                                             }
                                             setCurrentId(item);
                                             setConfirmDelete(true);
-                                        }} id={"delete-item-button"} className={"delete"}><MdOutlineDeleteSweep className={"w-[1.5rem] h-[1.5rem]"}/> حذف</button>
-                                    </td>
-                                </tr>
+                                        }} id={"delete-item-button"}
+                                                color={"error"}
+                                                className={"edit-delete"}
+                                                startIcon={<MdOutlineDeleteSweep className={"w-[1.5rem] h-[1.5rem]"}/>}
+                                        > حذف</Button>
+                                    </TableCell>
+                                </TableRow>
                             )
                         })}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             )}
             <div className={"add-pagination"}>
-                <button onClick={() => {
+                <Button onClick={() => {
                     if (confirmDelete || currentId || showForm) {
                         return;
                     }
                     setShowForm(true);
-                }} id={"add-form-button"} className={"add"}><RiAddLargeFill className={"mt-1"} /> اضافه کردن محصول جدید</button>
+                }} id={"add-form-button"}
+                        variant={"contained"}
+                        color={"primary"}
+                        className={"justify-between gap-4 font-peydabolder"}
+                        startIcon={<RiAddLargeFill />}
+                > اضافه کردن محصول جدید</Button>
                 <div className={"pagination"}>
                     <span><MdKeyboardArrowRight className={"w-[1.2rem] h-[1.2rem]"} /></span>
                     <span>1</span>
                     <span><MdKeyboardArrowLeft className={"w-[1.2rem] h-[1.2rem]"} /></span>
                 </div>
             </div>
-            <h1 className={"font-bold text-md mt-auto flex flex-row items-center gap-2"}>
+            <h1 className={"font-peydabold text-md mt-auto flex flex-row items-center gap-2"}>
                 <div className={"check-container"}><FaCheck className={"fill-white"} /></div>
                 راهنما های مشابه
             </h1>
-            <div className={"flex flex-row items-center gap-2"}>
+            <div className={"flex flex-row items-center gap-2 font-peydabolder"}>
                 <div className={"help-card"}>
                     <div className={"help-card-title"}>
                         <div className={"w-4 h-4 rounded-full bg-green-700"}></div>
@@ -139,7 +156,7 @@ export const ShowData = () => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': "Bearer 17|LBQC9Wd4GxwrDO0YEAhtmZEDvJi7XSQRS7JhbVkE4279d436"
+                'Authorization': "Bearer 19|5f2Fq460UdQDzX2EGTjfjAn37FVtrVU9136shRqFcbdc25fc"
             }
         });
         const data = await response.json();
@@ -152,7 +169,7 @@ export const ShowData = () => {
             method: 'GET',
             headers: {
                 'Content-Type': "application/json",
-                'Authorization': "Bearer 17|LBQC9Wd4GxwrDO0YEAhtmZEDvJi7XSQRS7JhbVkE4279d436"
+                'Authorization': "Bearer 19|5f2Fq460UdQDzX2EGTjfjAn37FVtrVU9136shRqFcbdc25fc"
             }
         });
         const data = response.json();
